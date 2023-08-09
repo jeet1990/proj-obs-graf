@@ -1,28 +1,25 @@
 
 version: '3.8'
 services:
-  <app>:
-    image: ''
+  grafana:
+    image: 'grafana/grafana-oss'
     restart: unless-stopped
-    hostname: ''
-    container_name: ''
+    hostname: 'grafana'
+    container_name: 'grafana'
     environment:
-    command: 
-      - '--config.file=/etc/prometheus/prometheus.yml'
-    networks:
-      - gitlab
+      - GF_SERVER_ROOT_URL=http://my.grafana.server/
+      - GF_INSTALL_PLUGINS=grafana-clock-panel
+    # command: 
+    #   - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
-      - ''
-      - ''
+      - '3000:3000'
     volumes:
-      - '$APP_HOMEDIR/gitlab-pdata/config:/etc/gitlab'
-      - '$APP_HOMEDIR/gitlab-pdata/logs:/var/log/gitlab'
-      - '$APP_HOMEDIR/gitlab-pdata/data:/var/opt/gitlab'
+      - '$GRAF_HOMEDIR/graf-pdata/grafana:/var/lib/grafana'
 
 networks:
-  gitlab:
-    name: gitlab-network
+  graf-n:
+    name: graf-network
 
 volumes:
-  prometheus-v:
-    name: prometheus-data
+  graf-v:
+    name: graf-data
